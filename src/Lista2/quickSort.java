@@ -3,6 +3,7 @@ package Lista2;
 class quickSort {
     private int comp;
     private int swap;
+
     public int[] sort(int[] table, boolean ascending) {
         comp = 0;
         swap = 0;

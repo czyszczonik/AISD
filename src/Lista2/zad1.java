@@ -123,6 +123,14 @@ public class zad1 {
                         return;
                 } // END args[3] switch case
                 switch (args[1]) {
+                    case "DPQS":
+                        DPQS dpqs = new DPQS();
+                        startTime = System.nanoTime();
+                        dpqs.sort(table, ascending);
+                        endTime = System.nanoTime();
+                        comp = dpqs.getComp();
+                        swap = dpqs.getSwap();
+                        break;
                     case "merge":
                         mergeSort mergeSort = new mergeSort();
                         startTime = System.nanoTime();
@@ -147,14 +155,7 @@ public class zad1 {
                         comp = insertionSort.getComp();
                         swap = insertionSort.getSwap();
                         break;
-                    case "DPQS":
-                        DPQS dpqs = new DPQS();
-                        startTime = System.nanoTime();
-                        dpqs.sort(table, ascending);
-                        endTime = System.nanoTime();
-                        comp = dpqs.getComp();
-                        swap = dpqs.getSwap();
-                        break;
+
                 }//END Args[1] switch case
 
                 long duration = (endTime - startTime) / 1000;
@@ -166,7 +167,7 @@ public class zad1 {
                     e.printStackTrace();
                 }
                 try {
-                    TimeUnit.MILLISECONDS.sleep(50);
+                    TimeUnit.MILLISECONDS.sleep(8);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -194,7 +195,7 @@ public class zad1 {
 
         int[] table = new int[size];
         for(int index = 0;index<size;index++){
-            table[index] = random.nextInt(100000 - 0 + 1);
+            table[index] = random.nextInt(100000 + 1);
         }
         return table;
     }

@@ -8,6 +8,7 @@ class DPQS {
     public int[] sort(int[] table, boolean ascending) {
         comp = 0;
         swap = 0;
+
         return dpqs(table,ascending,0,table.length-1);
     }
     private int[] dpqs(int[] table,boolean ascending,int left,int right){
@@ -22,52 +23,50 @@ class DPQS {
                 pivotLeft = table[right];
             }
 
-            int i = left + 1;
-            int k = right - 1;
-            int j = i;
-            int d = 0;
+            int newLeft = left + 1;
+            int newRight = right - 1;
+            int iterator = newLeft;
+            int side = 0;
 
-            while (j <= k) {
-                if (d >= 0) {
-                    if (!compare(table[j],pivotRight,ascending)) {
-                        swap(table, i, j);
-                        i++;
-                        j++;
-                        d++;
+            while (iterator <= newRight) {
+                if (side >= 0) {
+                    if (!compare(table[iterator],pivotRight,ascending)) {
+                        swap(table, newLeft, iterator);
+                        newLeft++;
+                        iterator++;
+                        side++;
                     } else {
-                        if (!compare(table[j],pivotLeft,ascending)) {
-                            j++;
+                        if (!compare(table[iterator],pivotLeft,ascending)) {
+                            iterator++;
                         } else {
-                            swap(table, j, k);
-                            k--;
-                            d--;
+                            swap(table, iterator, newRight);
+                            newRight--;
+                            side--;
                         }
                     }
                 } else {
-                    if (compare(table[k],pivotLeft,ascending)) {
-                        k--;
-                        d--;
+                    if (compare(table[newRight],pivotLeft,ascending)) {
+                        newRight--;
+                        side--;
                     } else {
-                        if (!compare(table[k],right,ascending)) {
-                            rotate(table, k, j, i);
-                            i++;
-                            d++;
+                        if (!compare(table[newRight],right,ascending)) {
+                            rotate(table, newRight, iterator, newLeft);
+                            newLeft++;
+                            side++;
                         } else {
-                            swap(table, j, k);
+                            swap(table, iterator, newRight);
                         }
-                        j++;
-
+                        iterator++;
                     }
                 }
             }
-            table[left] = table[i - 1];
-            table[i - 1] = pivotRight;
-            table[right] = table[k + 1];
-            table[k + 1] = pivotLeft;
-            swap+=2;
-            dpqs(table, ascending, left, i - 2);
-            dpqs(table, ascending, i, k);
-            dpqs(table, ascending, k + 2, right);
+            table[left] = table[newLeft - 1];
+            table[newLeft - 1] = pivotRight;
+            table[right] = table[newRight + 1];
+            table[newRight + 1] = pivotLeft;
+            dpqs(table, ascending, left, newLeft - 2);
+            dpqs(table, ascending, newLeft, newRight);
+            dpqs(table, ascending, newRight + 2, right);
         } return table;
     }
 
