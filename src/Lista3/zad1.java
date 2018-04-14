@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class zad1 {
 
     public static void main(String args[]){
-        if(args.length != 3){
+        if(args.length != 7){
             System.err.println("Wrong Usage!");
             return;
         }
@@ -33,20 +33,21 @@ public class zad1 {
         int fileNameIndex = 0;
         for (int index = 0; index < args.length; index++) {
             if (args[index].equals("--comp")) {
-                compTypeIndex = index + 1;
+                compTypeIndex = index+3 ;
             }
             if (args[index].equals("--type")) {
+
             }
             if (args[index].equals("--stat")) {
                 fileNameIndex = index + 1;
                 Integer.parseInt(args[index + 2]);
             }
         }
-        String compType = args[compTypeIndex];
+        String compType = args[compTypeIndex+3];
         boolean ascending;
-        if (compType == "<=") {
+        if (compType.equals("<=")) {
             ascending = true;
-        } else if (compType == ">=") {
+        } else if (compType.equals(">=")) {
             ascending = false;
         } else {
             System.err.print("Wrong comparison type!");
@@ -70,44 +71,57 @@ public class zad1 {
         for (int iterator = 100; iterator <= 10000; iterator += 100) {
             for (int repeat = 0; repeat < repeats; repeat++) {
                 int table[] = generate(iterator);
+                Runtime runtime = Runtime.getRuntime();
+                long memoryBefore= 0;
+                long memoryAfter=0;
                 switch (args[1]) {
                     case "DPQS":
                         DPQS dpqs = new DPQS();
+                        memoryBefore = runtime.totalMemory() - runtime.freeMemory();
                         startTime = System.nanoTime();
                         dpqs.sort(table, ascending);
                         endTime = System.nanoTime();
+                        memoryAfter= runtime.totalMemory() - runtime.freeMemory();
                         comp = dpqs.getComp();
                         swap = dpqs.getSwap();
                         break;
                     case "merge":
                         mergeSort mergeSort = new mergeSort();
+                        memoryBefore = runtime.totalMemory() - runtime.freeMemory();
                         startTime = System.nanoTime();
                         mergeSort.sort(table, ascending);
                         endTime = System.nanoTime();
+                        memoryAfter = runtime.totalMemory() - runtime.freeMemory();
                         comp = mergeSort.getComp();
                         swap = mergeSort.getSwap();
                         break;
                     case "quick":
                         quickSort quickSort = new quickSort();
+                        memoryBefore = runtime.totalMemory() - runtime.freeMemory();
                         startTime = System.nanoTime();
                         quickSort.sort(table, ascending);
                         endTime = System.nanoTime();
+                        memoryAfter= runtime.totalMemory() - runtime.freeMemory();
                         comp = quickSort.getComp();
                         swap = quickSort.getSwap();
                         break;
                     case "insert":
                         insertionSort insertionSort = new insertionSort();
+                        memoryBefore = runtime.totalMemory() - runtime.freeMemory();
                         startTime = System.nanoTime();
                         insertionSort.sort(table, ascending);
                         endTime = System.nanoTime();
+                        memoryAfter= runtime.totalMemory() - runtime.freeMemory();
                         comp = insertionSort.getComp();
                         swap = insertionSort.getSwap();
                         break;
                     case "radix":
                         RadixSort radixSort = new RadixSort();
+                        memoryBefore = runtime.totalMemory() - runtime.freeMemory();
                         startTime = System.nanoTime();
                         radixSort.radixSort(table, ascending, 10);
                         endTime = System.nanoTime();
+                        memoryAfter= runtime.totalMemory() - runtime.freeMemory();
                         comp = radixSort.getComp();
                         swap = radixSort.getSwap();
                         break;
@@ -115,8 +129,8 @@ public class zad1 {
                 }//END Args[1] switch case
 
                 long duration = (endTime - startTime) / 1000;
-
-                String output = iterator + ";" + comp + ";" + swap + ";" + duration + "\n";
+                long mem = memoryAfter - memoryBefore;
+                String output = iterator + ";" + comp + ";" + swap + ";" + duration + ";"+ +mem+"\n";
                 try {
                     Files.write(Paths.get(args[5] + ".txt"), output.getBytes(), StandardOpenOption.APPEND);
                 } catch (IOException e) {

@@ -16,22 +16,23 @@ public class zad2 {
         scan.close();
         if(args[0].equals("-r")){
             int[] table = generateRandom(size);
+            int[] second = table.clone();
             RandomSelect randomSelect = new RandomSelect();
             int index = randomSelect.select(table,position);
             printArray(table,index);
-            table = generateRandom(size);
-//            MedianOfMedians medianOfMedians = new MedianOfMedians();
-//            index = medianOfMedians.select(table,position);
-//            printArray(table,index);
+            MedianOfMedians medianOfMedians = new MedianOfMedians();
+            int index2 = medianOfMedians.select(table,position);
+            System.err.println("Compare= "+medianOfMedians.comparisons);
+            printArray(second,index2);
         } else if(args[0].equals("-p")){
             int[] table = getPermutation(size);
             RandomSelect randomSelect = new RandomSelect();
             int index = randomSelect.select(table,position);
             printArray(table,index);
             table = getPermutation(size);
-//            MedianOfMedians medianOfMedians = new MedianOfMedians();
-//            index = medianOfMedians.select(table,position);
-//            printArray(table,index);
+            MedianOfMedians medianOfMedians = new MedianOfMedians();
+            index = medianOfMedians.select(table,position);
+            printArray(table,index);
         }
     }
     static int[] getPermutation(int size) {
