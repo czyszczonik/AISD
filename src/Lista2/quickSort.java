@@ -1,6 +1,6 @@
 package Lista2;
 
-class quickSort {
+public class quickSort {
     private int comp;
     private int swap;
 
@@ -22,9 +22,12 @@ class quickSort {
     private int partition(int[] table, boolean ascending, int left, int right){
         int pivot = pickPivot(left,right);
         int pivotElement = table[pivot];
+        //nasz pivot leci na prawo
         swap(table,pivot,right);
         int actual = left;
+        //przechodzimy od lewa do prawa
         for(int index = left; index < right;index++){
+            //w zależności od porównania przerzucamy element
             if(compare(pivotElement,table[index],ascending)){
                 swap(table,index,actual);
                 actual++;

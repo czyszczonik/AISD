@@ -1,12 +1,12 @@
 package Lista2;
 
-class insertionSort {
+public class insertionSort {
 
     private int comp;
     private int swap;
     public insertionSort(){   }
 
-     int[] sort(int[] table, boolean ascending){
+     public int[] sort(int[] table, boolean ascending){
          comp = 0;
          swap = 0;
         return insertionSort(table,ascending);
@@ -19,11 +19,13 @@ class insertionSort {
             int key = table[index];
             int iteration = index - 1;
 
+            //Takie dosyć trywalne "przesuwanie" tabeli
             while(iteration >= 0 && compare(table[iteration],key,ascending)){
                 table[iteration + 1] = table[iteration];
                 swap++;
                 iteration--;
             }
+            //Zapamiętany int wrzucony na odpowiednią pozycję
             table[iteration + 1] = key;
         }
         return table;

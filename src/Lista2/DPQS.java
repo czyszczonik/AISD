@@ -1,6 +1,6 @@
 package Lista2;
 
-class DPQS {
+public class DPQS {
     private int comp;
     private int swap;
     public DPQS(){}
@@ -12,9 +12,11 @@ class DPQS {
         return dpqs(table,ascending,0,table.length-1);
     }
     private int[] dpqs(int[] table,boolean ascending,int left,int right){
+        //to już jest koniec ...
         if(right > left) {
             int pivotRight;
             int pivotLeft;
+            //wybieramy dwa skrajne el na pivoty i w zależności od typu sortowanie odpowienia przydzielamy
             if (!compare(table[right],table[left],ascending)) {
                 pivotRight = table[right];
                 pivotLeft = table[left];
@@ -28,16 +30,22 @@ class DPQS {
             int iterator = newLeft;
             int side = 0;
 
+            // przechodzimy tablicę od lewego pivota do prawego
             while (iterator <= newRight) {
+                //jeśli więcej jest z prawej strony tablicy elementów za pivotem to pierwsze do prawego pivota porównanie
                 if (side >= 0) {
+                    //jeśli el jest mniejszy od prawego pivota
                     if (!compare(table[iterator],pivotRight,ascending)) {
+                        //wrzucamy go do środka tablicy czyli  leftPivot<element<rightPivot
                         swap(table, newLeft, iterator);
                         newLeft++;
                         iterator++;
                         side++;
                     } else {
+                        //jeśli el jest większy od lewego pivota przesuwamy się dalej
                         if (!compare(table[iterator],pivotLeft,ascending)) {
                             iterator++;
+                            //w przeciwnym wypadku zamieniamy go z prawym pivotem
                         } else {
                             swap(table, iterator, newRight);
                             newRight--;
@@ -45,15 +53,19 @@ class DPQS {
                         }
                     }
                 } else {
+                    //jeśli nowy prawy pivot jest większy od lewego pivota przesuwamy dalej prawy pivot
                     if (compare(table[newRight],pivotLeft,ascending)) {
                         newRight--;
                         side--;
                     } else {
+                        //jeśli jest mniejszt to sprawdzamy czy jest mniejszy od prawego.
                         if (!compare(table[newRight],right,ascending)) {
+                            // jeśli tak to routemy
                             rotate(table, newRight, iterator, newLeft);
                             newLeft++;
                             side++;
                         } else {
+                            // jeśli jest większt to zamieniamy z nowym prawym
                             swap(table, iterator, newRight);
                         }
                         iterator++;
@@ -64,6 +76,7 @@ class DPQS {
             table[newLeft - 1] = pivotRight;
             table[right] = table[newRight + 1];
             table[newRight + 1] = pivotLeft;
+            // włączamy to samo dla lewej środkowej i prawej części tablicy
             dpqs(table, ascending, left, newLeft - 2);
             dpqs(table, ascending, newLeft, newRight);
             dpqs(table, ascending, newRight + 2, right);

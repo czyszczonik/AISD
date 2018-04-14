@@ -27,30 +27,43 @@ public class zad1 {
         if(!checkType(args)){
             return;
         }
+        int compTypeIndex = 0;
+        int sortTypeIndex = 0;
+        for (int index = 0; index<args.length;index++) {
+            if(args[index].equals("--type")){
+                sortTypeIndex=index+1;
+            }
+            if(args[index].equals("--comp")){
+                compTypeIndex=index+1;
+            }
+        }
+        String compType = args[compTypeIndex];
+        boolean ascending;
+        if(compType.equals(">=")){
+            ascending = true;
+        } else if(compType.equals("<=")){
+            ascending = false;
+        } else {
+            System.err.print("Wrong comparison type!");
+            return;
+        }
+
         Scanner scan = new Scanner(System.in);
-        scan.nextLine();
-        String input = scan.nextLine();
+        StringBuilder input = new StringBuilder();
+        int size = Integer.parseInt(scan.nextLine());
+        for (int i = 0; i < size; i++) {
+            input.append(scan.nextInt()+" ");
+        }
+        input.toString();
         scan.close();
 
         int[] table = Arrays.stream(input.substring(0,input.length()).split(" "))
                 .mapToInt(Integer::parseInt)
                 .toArray();
 
-        boolean ascending;
-        switch (args[3]) {
-            case "'>='":
-                ascending = true;
-                break;
-            case "'<='":
-                ascending = false;
-                break;
-            default:
-                System.err.print("Wrong comparison type!");
-                return;
-        }
         long startTime=0;
         long endTime=0;
-        switch (args[1]) {
+        switch (args[sortTypeIndex]) {
             case "insert":
                 insertionSort insertionSort = new insertionSort();
                 startTime = System.nanoTime();
@@ -84,17 +97,53 @@ public class zad1 {
                 System.err.println("Moves= "+quickSort.getSwap());
                 break;
         }
+
         long duration = (endTime - startTime)/1000000;
         System.err.println("Time: "+duration+" miliseconds.");
+        if(sortTest(ascending,table)){
+            System.err.println("OK");
+        } else {
+            System.err.println("Wrong");
+        }
+        System.out.println(table.length);
+        String output = "";
+        for (int number:table) {
+            System.out.print(number+" ");
+
+        }
+        System.out.println("");
     }
 
     static void zad2(String args[]){
         if(!checkType(args)){
             return;
         }
+        int compTypeIndex = 0;
+        int fileNameIndex = 0;
+        for (int index = 0; index<args.length;index++) {
+            if(args[index].equals("--type")){
+            }
+            if(args[index].equals("--comp")){
+                compTypeIndex=index+1;
+            }
+            if(args[index].equals("--stat")){
+                fileNameIndex = index+1;
+                Integer.parseInt(args[index + 2]);
+            }
+        }
+        String compType = args[compTypeIndex];
+        boolean ascending;
+        if(compType == ">="){
+            ascending = true;
+        } else if(compType == "<="){
+            ascending = false;
+        } else {
+            System.err.print("Wrong comparison type!");
+            return;
+        }
         PrintWriter writer = null;
         try {
-            writer = new PrintWriter(args[5]+".txt", "UTF-8");
+            writer = new PrintWriter(args[fileNameIndex]+".txt", "UTF-8");
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace(); }
         writer.println("iterator;comp;swap;duration");
@@ -104,24 +153,12 @@ public class zad1 {
         long endTime=0;
         int comp = 0;
         int swap = 0;
-        boolean ascending = false;
         int repeats = Integer.parseInt(args[6]);
 
 
         for(int iterator = 100;iterator<=10000;iterator+=100){
             for(int repeat = 0;repeat < repeats;repeat++){
                 int table[] = generate(iterator);
-                switch (args[3]) {
-                    case "'<='":
-                        ascending = false;
-                        break;
-                    case "'>='":
-                        ascending = true;
-                        break;
-                    default:
-                        System.err.print("Wrong comparison type!");
-                        return;
-                } // END args[3] switch case
                 switch (args[1]) {
                     case "DPQS":
                         DPQS dpqs = new DPQS();
@@ -198,6 +235,23 @@ public class zad1 {
             table[index] = random.nextInt(100000 + 1);
         }
         return table;
+    }
+    static boolean sortTest(boolean ascending,int[] table){
+        for(int index=0;index<table.length-1;index++){
+            if(compare(table[index],table[index+1],ascending)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean compare(int element1,int element2,boolean ascending) {
+        if(ascending){
+            return element1 > element2 ? true : false;
+        } else {
+            return element1 < element2 ? true : false;
+
+        }
     }
 
 }

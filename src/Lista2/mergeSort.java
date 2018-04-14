@@ -2,7 +2,7 @@ package Lista2;
 
 import java.util.Arrays;
 
-class mergeSort {
+public class mergeSort {
     private int comp;
     private int swap;
     public mergeSort(){}
@@ -33,6 +33,7 @@ class mergeSort {
         int index2 = 0;
         int arrayIndex = 0;
 
+        //porównujemy elementy z obu tabel i scalamy ją w jedną
         while(table1.length > index1 && table2.length > index2){
             if(compare(table1[index1],table2[index2],ascending)){
                 array[arrayIndex] = table2[index2];
@@ -46,7 +47,7 @@ class mergeSort {
                 swap++;
             }
         }
-
+        //jak coś zostało z table1 to wrzucamy to tego co zwracamy
         while(table1.length > index1){
             swap++;
             array[arrayIndex] = table1[index1];
@@ -54,6 +55,7 @@ class mergeSort {
             arrayIndex++;
         }
 
+        //jak coś zostało z table2 to wrzucamy to tego co zwracamy
         while(table2.length > index2){
             array[arrayIndex] = table2[index2];
             index2++;
