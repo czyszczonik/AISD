@@ -32,7 +32,7 @@ public class RadixSort {
             }
 
             // counting sort algorithm
-            // make each element in the frequency array
+            // make each HashNode in the frequency array
             // store the sum of previous counts
             if(ascending) {
                 for (int i = 1; i < base; i++) {

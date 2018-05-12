@@ -27,7 +27,7 @@ public class quickSort {
         int actual = left;
         //przechodzimy od lewa do prawa
         for(int index = left; index < right;index++){
-            //w zależności od porównania przerzucamy element
+            //w zależności od porównania przerzucamy HashNode
             if(compare(pivotElement,table[index],ascending)){
                 swap(table,index,actual);
                 actual++;

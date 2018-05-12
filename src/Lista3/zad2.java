@@ -48,7 +48,7 @@ public class zad2 {
             // Pick a random index from 0 to i
             int j = r.nextInt(i);
 
-            // Swap arr[i] with the element at random index
+            // Swap arr[i] with the HashNode at random index
             int temp = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;

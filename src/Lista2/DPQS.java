@@ -36,7 +36,7 @@ public class DPQS {
                 if (side >= 0) {
                     //jeśli el jest mniejszy od prawego pivota
                     if (!compare(table[iterator],pivotRight,ascending)) {
-                        //wrzucamy go do środka tablicy czyli  leftPivot<element<rightPivot
+                        //wrzucamy go do środka tablicy czyli  leftPivot<HashNode<rightPivot
                         swap(table, newLeft, iterator);
                         newLeft++;
                         iterator++;

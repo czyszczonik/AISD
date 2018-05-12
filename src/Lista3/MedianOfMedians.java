@@ -63,7 +63,7 @@ public class MedianOfMedians {
         }
 
         if(position <= ltm_index){
-            System.err.println("Finding median in less than pivot element");
+            System.err.println("Finding median in less than pivot HashNode");
             return_array = new int[ltm_index];
             //HARD COPY !!!
             for(int i = 0; i < ltm_index; ++i){
@@ -73,7 +73,7 @@ public class MedianOfMedians {
         }
 
         if(position > (ltm_index + etm_index)){
-            System.err.println("Finding median in higher than pivot element");
+            System.err.println("Finding median in higher than pivot HashNode");
 
             return_array = new int[gtm_index];
             //HARD COPY !!!

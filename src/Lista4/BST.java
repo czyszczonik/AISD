@@ -22,6 +22,9 @@ public class BST {
         }
         //Node are leaf.
         if(node.getRightNode() ==  null && node.getLeftNode() == null){
+            if(node == root){
+                root = null;
+            }
             node = node.getParent();
             if(node.getLeftNode().getKey().equals(key)){
                 node.setLeftNode(null);
@@ -33,11 +36,19 @@ public class BST {
         }
         //Node have only one child right or left.
         if((node.getLeftNode() == null && node.getRightNode() != null)){
+            if(node == root){
+                root = node.getRightNode();
+                return;
+            }
             Node parent = node.getParent();
             parent.setRightNode(node.getRightNode());
             node.getRightNode().setParent(parent);
             return;
         } else if((node.getLeftNode() != null && node.getRightNode() == null)){
+            if(node == root){
+                root = node.getLeftNode();
+                return;
+            }
             Node parent = node.getParent();
             parent.setLeftNode(node.getRightNode());
             node.getLeftNode().setParent(parent);
