@@ -189,14 +189,6 @@ public class BST {
         }
     }
 
-    /**
-     * Function compare two strings in lexicographical order.
-     * When String 1 is greater than String 2 function returns true,
-     * else function returns false.
-     * @param String1 String
-     * @param String2 String
-     * @return Boolean
-     */
     private boolean compare(String String1, String String2){
         return String1.compareTo(String2) > 0;
     }

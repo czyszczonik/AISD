@@ -1,7 +1,5 @@
 package Lista4;
 
-import static Lista4.Color.BLACK;
-import static Lista4.Color.RED;
 
 public class RBTree {
     private RBNODE nil = new RBNODE();
@@ -17,8 +15,8 @@ public class RBTree {
         return root;
     }
 
-
     private void leftRotate(RBNODE node){
+        System.err.println("leftRotate");
         RBNODE rightNode = node.getRight();
         node.setRight(rightNode.getLeft());
         if (!isNil(rightNode.getLeft())) {
@@ -39,8 +37,9 @@ public class RBTree {
         node.setParent(rightNode);
     }
 
-
     private void rightRotate(RBNODE node){
+        System.err.println("rightRotate");
+
         RBNODE leftNode = node.getLeft();
         node.setLeft(leftNode.getRight());
         if (!isNil(leftNode.getRight()))
@@ -61,11 +60,9 @@ public class RBTree {
 
     }
 
-
-
-
     public void insert(String key) {
-        insert(new RBNODE(nil,key,RED));
+        System.err.println("Insert: "+key);
+        insert(new RBNODE(nil,key,Color.RED));
     }
 
     private void insert(RBNODE inserted) {
@@ -96,81 +93,62 @@ public class RBTree {
         insertFixUp(inserted);
     }
 
-
     private void insertFixUp(RBNODE node){
-
+        System.err.println("InsertFixUp");
         RBNODE uncle;
-        while (node.getParent().getColor() == RED){
-            // node parent is left child of node grandparent
+        while (node.getParent().getColor() == Color.RED){
             if (node.getParent() == node.getParent().getParent().getLeft()){
+                // parent is left child of grandparent
                 uncle = node.getParent().getParent().getRight();
-                if (uncle.getColor() == RED){
-                    node.getParent().setColor(BLACK);
-                    uncle.setColor(BLACK);
-                    node.getParent().getParent().setColor(RED);
+                if (uncle.getColor() == Color.RED){
+                    node.getParent().setColor(Color.BLACK);
+                    uncle.setColor(Color.BLACK);
+                    node.getParent().getParent().setColor(Color.RED);
                     node = node.getParent().getParent();
-                }
-                // Case 2: if uncle is black & node is a right child
-                else if (node == node.getParent().getRight()){
-
-                    // leftRotaet around node's parent
+                } else if (node == node.getParent().getRight()){
+                    //uncle is BLACK and node is a right child
                     node = node.getParent();
                     leftRotate(node);
-                }
-
-                // Case 3: else uncle is black & node is a left child
-                else{
-                    // recolor and rotate round node's grandpa
-                    node.getParent().color = BLACK;
-                    node.getParent().getParent().color = RED;
+                } else{
+                    // uncle is BLACK and node is a left child
+                    // recolor and rotate right grandpa
+                    node.getParent().setColor(Color.BLACK);
+                    node.getParent().getParent().setColor(Color.RED);
                     rightRotate(node.getParent().getParent());
                 }
             } else{
-                //node is right child of its parent
-                // Initialize uncle to node's uncle
+                // parent is right child of grandparent
                 uncle = node.getParent().getParent().getLeft();
-
-                // Case 1: if uncle is red...recolor
-                if (uncle.getColor() == RED){
-                    node.getParent().color = BLACK;
-                    uncle.color = BLACK;
-                    node.getParent().getParent().color = RED;
+                if (uncle.getColor() == Color.RED){
+                    node.getParent().setColor(Color.BLACK);
+                    uncle.setColor(Color.BLACK);
+                    node.getParent().getParent().setColor(Color.RED);
                     node = node.getParent().getParent();
-                }
-
-                // Case 2: if uncle is black and node is a left child
-                else if (node == node.getParent().getLeft()){
-                    // rightRotate around node's parent
+                } else if (node == node.getParent().getLeft()){
+                    //uncle is BLACK and node is a left child
                     node = node.getParent();
                     rightRotate(node);
-                }
-                // Case 3: if uncle  is black and node is a right child
-                else{
-                    // recolor and rotate around node's grandpa
-                    node.getParent().color = BLACK;
-                    node.getParent().getParent().color = RED;
+                } else{
+                    // uncle is BLACK and node is a left child
+                    // recolor and rotate right grandpa
+                    node.getParent().setColor(Color.BLACK);
+                    node.getParent().getParent().setColor(Color.RED);
                     leftRotate(node.getParent().getParent());
                 }
             }
         }
-        // Color root black at all times
-        root.color = BLACK;
+        root.setColor(Color.BLACK);
+    }
 
-    }// end insertFixUp(RBNODE node)
-
-    // @param: node, a RBNODE
-    // @param: node, the node with the smallest key rooted at node
     public RBNODE minValue(RBNODE node){
-
-        // while there is a smaller key, keep going left
+        System.err.println("MinValue");
         while (!isNil(node.getLeft()))
             node = node.getLeft();
         return node;
-    }// end minValue(RBNODE node)
+    }
 
-
-    public String getSuccessor(String k){
-        RBNODE node = search(k);
+    public String getSuccessor(String key){
+        RBNODE node = findNode(key);
         if(node == null){
             return "";
         } else {
@@ -178,9 +156,8 @@ public class RBTree {
         }
     }
 
-
-
     private RBNODE getSuccessor(RBNODE node){
+        System.err.println("Successor");
         if(node.getRight()== nil || node.getRight() == null){
             if(node.getRight() != nil && node.getRight() != null){
                 return minValue(node.getRight());
@@ -196,193 +173,138 @@ public class RBTree {
         return node;
     }
 
-
-    // @param: z, the RBNODE which is to be removed from the the tree
-    // Remove's z from the RedBlackTree rooted at root
-    public void remove(RBNODE v){
-
-        RBNODE z = search(v.key);
-
-        // Declare variables
-        RBNODE x = nil;
-        RBNODE y = nil;
-
-        // if either one of z's children is nil, then we must remove z
-        if (isNil(z.getLeft()) || isNil(z.getRight()))
-            y = z;
-
-            // else we must remove the successor of z
-        else y = getSuccessor(z);
-
-        // Let x be the left or right child of y (y can only have one child)
-        if (!isNil(y.getLeft()))
-            x = y.getLeft();
-        else
-            x = y.getRight();
-
-        // link x's parent to y's parent
-        x.parent = y.getParent();
-
-        // If y's parent is nil, then x is the root
-        if (isNil(y.getParent()))
-            root = x;
-
-            // else if y is a left child, set x to be y's left sibling
-        else if (!isNil(y.getParent().getLeft()) && y.getParent().getLeft() == y)
-            y.getParent().left = x;
-
-            // else if y is a right child, set x to be y's right sibling
-        else if (!isNil(y.getParent().getRight()) && y.getParent().getRight() == y)
-            y.getParent().right = x;
-
-        // if y != z, trasfer y's satellite data into z.
-        if (y != z){
-            z.key = y.key;
+    public void remove(RBNODE node){
+        System.err.println("Remove");
+        RBNODE toRemove = findNode(node.getKey());
+        RBNODE temporary, child = nil;
+        //toRemove is leaf or have one child
+        if (isNil(toRemove.getLeft()) || isNil(toRemove.getRight())) {
+            temporary = toRemove;
+        } else {
+            //node have both children
+            temporary = getSuccessor(toRemove);
         }
+        if (!isNil(temporary.getLeft())) {
+            child = temporary.getLeft();
+        } else {
+            child = temporary.getRight();
+        }
+        // link child's parent to temporary's parent
+        child.setParent(temporary.getParent());
 
-        // If y's color is black, it is a violation of the
-        // RedBlackTree properties so call removeFixup()
-        if (y.getColor() == BLACK)
-            removeFixup(x);
-    }// end remove(RBNODE z)
+        // Children is ROOT
+        if (isNil(temporary.getParent())) {
+            root = child;
+        } else if (!isNil(temporary.getParent().getLeft()) && temporary.getParent().getLeft() == temporary) {
+            temporary.getParent().setLeft(child);
+        } else if (!isNil(temporary.getParent().getRight()) && temporary.getParent().getRight() == temporary) {
+            temporary.getParent().setRight(child);
+        }
+        if (temporary != toRemove){
+            // trasfer temporary's data.
+            toRemove.setKey(temporary.getKey());
+        }
+        if (temporary.getColor() == Color.BLACK) {
+            removeFixUp(child);
+        }
+    }
 
+    private void removeFixUp(RBNODE node){
+        System.err.println("Remove Fix Up");
 
-    // @param: node, the child of the deleted node from remove(RBNODE v)
-    // Restores the Red Black properties that may have been violated during
-    // the removal of a node in remove(RBNODE v)
-    private void removeFixup(RBNODE node){
-
-        RBNODE temporary;
-
-        // While we haven't fixed the tree completely...
-        while (node != root && node.getColor() == BLACK){
-
-            // if node is it's parent's left child
+        RBNODE sibling;
+        while (node != root && node.getColor() == Color.BLACK){
             if (node == node.getParent().getLeft()){
-
-                // set temporary = node's sibling
-                temporary = node.getParent().getRight();
-
-                // Case 1, temporary's color is red.
-                if (temporary.getColor() == RED){
-                    temporary.color = BLACK;
-                    node.getParent().color = RED;
+                // node is left child
+                sibling = node.getParent().getRight();
+                // Sibling is RED.
+                if (sibling.getColor() == Color.RED){
+                    sibling.setColor(Color.BLACK);
+                    node.getParent().setColor(Color.RED);
                     leftRotate(node.getParent());
-                    temporary = node.getParent().getRight();
+                    sibling = node.getParent().getRight();
                 }
-
-                // Case 2, both of temporary's children are black
-                if (temporary.getLeft().getColor() == BLACK &&
-                        temporary.getRight().getColor() == BLACK){
-                    temporary.color = RED;
+                if (sibling.getLeft().getColor() == Color.BLACK &&
+                        sibling.getRight().getColor() == Color.BLACK){
+                    // Both of sibling's children are BLACK
+                    sibling.setColor(Color.RED);
                     node = node.getParent();
-                }
-                // Case 3 / Case 4
-                else{
-                    // Case 3, temporary's right child is black
-                    if (temporary.getRight().getColor() == BLACK){
-                        temporary.getLeft().color = BLACK;
-                        temporary.color = RED;
-                        rightRotate(temporary);
-                        temporary = node.getParent().getRight();
+                } else{
+                    if (sibling.getRight().getColor() == Color.BLACK){
+                        // Sibling's right child is BLACK
+                        sibling.getLeft().setColor(Color.BLACK);
+                        sibling.setColor(Color.RED);
+                        rightRotate(sibling);
+                        sibling = node.getParent().getRight();
                     }
-                    // Case 4, temporary = black, temporary.right = red
-                    temporary.color = node.getParent().getColor();
-                    node.getParent().color = BLACK;
-                    temporary.getRight().color = BLACK;
+                    // Sibling is BLACK and his right child is RED
+                    sibling.setColor(node.getParent().getColor());
+                    node.getParent().setColor(Color.BLACK);
+                    sibling.getRight().setColor(Color.BLACK);
                     leftRotate(node.getParent());
                     node = root;
                 }
-            }
-            // if node is it's parent's right child
-            else{
-
-                // set temporary to node's sibling
-                temporary = node.getParent().getLeft();
-
-                // Case 1, temporary's color is red
-                if (temporary.getColor() == RED){
-                    temporary.color = BLACK;
-                    node.getParent().color = RED;
+            } else{
+                // node is right child
+                sibling = node.getParent().getLeft();
+                // Sibling's is RED
+                if (sibling.getColor() == Color.RED){
+                    sibling.setColor(Color.BLACK);
+                    node.getParent().setColor(Color.RED);
                     rightRotate(node.getParent());
-                    temporary = node.getParent().getLeft();
+                    sibling = node.getParent().getLeft();
                 }
 
-                // Case 2, both of temporary's children are black
-                if (temporary.getRight().getColor() == BLACK &&
-                        temporary.getLeft().getColor() == BLACK){
-                    temporary.color = RED;
+                // Both of sibling's children are BLACK
+                if (sibling.getRight().getColor() == Color.BLACK &&
+                        sibling.getLeft().getColor() == Color.BLACK){
+                    sibling.setColor(Color.RED);
                     node = node.getParent();
-                }
-
-                // Case 3 / Case 4
-                else{
-                    // Case 3, temporary's left child is black
-                    if (temporary.getLeft().getColor() == BLACK){
-                        temporary.getRight().color = BLACK;
-                        temporary.color = RED;
-                        leftRotate(temporary);
-                        temporary = node.getParent().getLeft();
+                } else{
+                    if (sibling.getLeft().getColor() == Color.BLACK){
+                        // Sibling's left child is BLACK
+                        sibling.getRight().setColor(Color.BLACK);
+                        sibling.setColor(Color.RED);
+                        leftRotate(sibling);
+                        sibling = node.getParent().getLeft();
                     }
-
-                    // Case 4, temporary = black, and temporary.getLeft() = red
-                    temporary.color = node.getParent().getColor();
-                    node.getParent().color = BLACK;
-                    temporary.getLeft().color = BLACK;
+                    // Sibling is BLACK and his left child is RED
+                    sibling.setColor(node.getParent().getColor());
+                    node.getParent().setColor(Color.BLACK);
+                    sibling.getLeft().setColor(Color.BLACK);
                     rightRotate(node.getParent());
                     node = root;
                 }
             }
-        }// end while
+        }
+        node.setColor(Color.BLACK);
+    }
 
-        // set node to black to ensure there is no violation of
-        // RedBlack tree Properties
-        node.color = BLACK;
-    }// end removeFixup(RBNODE node)
-
-
-    public void delete(String key){
-        RBNODE node = search(key);
+    public void delete(String key)  {
+        RBNODE node = findNode(key);
         if(node != nil) {
             remove(node);
         }
     }
 
-    // @param: key, the key whose node we want to search for
-    // @return: returns a node with the key, key, if not found, returns nil
-    // Searches for a node with key k and returns the first such node, if no
-    // such node is found returns nil
-    public RBNODE search(String key){
-
-        // Initialize a pointer to the root to traverse the tree
+    public RBNODE findNode(String key){
+        System.err.println("Finding Node");
         RBNODE current = root;
-
-        // While we haven't reached the end of the tree
-        while (!isNil(current)){
-
-            // If we have found a node with a key equal to key
-            if (current.key.equals(key))
-
-                // return that node and exit search(int)
+        while (!isNil(current)) {
+            if (current.getKey().equals(key)) {
                 return current;
-
-                // go left or right based on value of current and key
-            else if (current.key.compareTo(key) < 0)
+            } else if (current.getKey().compareTo(key) < 0) {
                 current = current.getRight();
-
-                // go left or right based on value of current and key
-            else
+            } else {
                 current = current.getLeft();
+            }
         }
-
-        // we have not found a node whose key is "key"
         return nil;
-
-
-    }// end search(int key)
+    }
 
     public int find(String key){
-        RBNODE node = search(key);
+        System.err.println("Finding Node");
+        RBNODE node = findNode(key);
         if(node != nil){
             return 1;
         } else {
@@ -407,10 +329,10 @@ public class RBTree {
         returned += inOrderSplit(node.getRight());
         return returned;
     }
+
     public String inOrderSplit(){
         return inOrderSplit(root);
     }
-
 
     public String maxValue(RBNODE root){
         if(root == nil){
@@ -419,6 +341,7 @@ public class RBTree {
             return maxValueNode(root).getKey();
         }
     }
+
     private RBNODE maxValueNode(RBNODE node){
         while (node.getRight() != nil){
             node = node.getRight();
@@ -427,12 +350,8 @@ public class RBTree {
     }
 
     private boolean isNil(RBNODE node){
-
-        // return appropriate value
         return node == nil;
-
-    }// end isNil(RBNODE node)
-
-}// end class RedBlackTree
+    }
+}
 
 

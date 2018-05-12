@@ -2,9 +2,9 @@ package Lista4;
 
 class RBNODE {
 
-    public RBNODE left, right, parent;
-    public String key;
-    public Color color;
+    private RBNODE left, right, parent;
+    private String key;
+    private Color color;
 
     public RBNODE(){}
     public RBNODE(String key){

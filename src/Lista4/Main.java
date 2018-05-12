@@ -16,7 +16,7 @@ public class Main {
         } else if(args[1].equals("rbt")){
             rbt();
         } else if(args[1].equals("hmap")){
-
+            hmap();
         }
     }
     private static void bst(){
@@ -24,6 +24,7 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         String[] line;
         int size = scan.nextInt()+1;
+        Long startTime = System.nanoTime();
         for (int iteration = 0; iteration < size; iteration++) {
             line = scan.nextLine().split(" ");
             if(line[0].equals("insert")){
@@ -47,13 +48,18 @@ public class Main {
                 System.out.println(struct.inOrder(struct.getRoot()));
             }
         }
+        Long endTime = System.nanoTime();
+        long duration = (endTime - startTime)/1000000;
+        System.err.println("Time: "+duration+" miliseconds.");
     }
 
     private static void rbt(){
+
         RBTree struct = new RBTree();
         Scanner scan = new Scanner(System.in);
         String[] line;
         int size = scan.nextInt()+1;
+        Long startTime = System.nanoTime();
         for (int iteration = 0; iteration < size; iteration++) {
             line = scan.nextLine().split(" ");
             if(line[0].equals("insert")){
@@ -77,6 +83,9 @@ public class Main {
                 System.out.println(struct.inOrder(struct.getRoot()));
             }
         }
+        Long endTime = System.nanoTime();
+        long duration = (endTime - startTime)/1000000;
+        System.err.println("Time: "+duration+" miliseconds.");
     }
 
     private static void hmap(){
@@ -84,6 +93,7 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         String[] line;
         int size = scan.nextInt()+1;
+        Long startTime = System.nanoTime();
         for (int iteration = 0; iteration < size; iteration++) {
             line = scan.nextLine().split(" ");
             if(line[0].equals("insert")){
@@ -99,6 +109,9 @@ public class Main {
                 System.out.println(struct.find(line[1]));
             }
         }
+        Long endTime = System.nanoTime();
+        long duration = (endTime - startTime)/1000000;
+        System.err.println("Time: "+duration+" miliseconds.");
     }
 
 

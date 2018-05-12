@@ -10,6 +10,7 @@ public class HashNode {
     private RBTree tree;
     private int size = 0;
     public void insert(String key){
+        System.err.println("Insert key" + key);
         if(size>transformSize){
             if(tree == null){
                 transformToTree();
@@ -22,6 +23,7 @@ public class HashNode {
     }
 
     public int find(String key){
+        System.err.println("Finding key" + key);
         if(lista == null){
             return tree.find(key);
         } else {
@@ -30,6 +32,8 @@ public class HashNode {
     }
 
     public void delete(String key){
+        System.err.println("Delete key" + key);
+
         if(size>transformSize){
             tree.delete(key);
         } else {
@@ -42,11 +46,13 @@ public class HashNode {
     }
 
     public void transformToTree(){
+        System.err.println("Transform to Tree");
         tree = new RBTree();
         lista.forEach(s -> tree.insert(s));
         lista = null;
     }
     public void transformToList(){
+        System.err.println("Transform to List");
         lista = new LinkedList<>();
         String[] values = tree.inOrderSplit().split(";");
         lista.addAll(Arrays.asList(values));
