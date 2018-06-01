@@ -288,7 +288,7 @@ public class RBTree {
     }
 
     public RBNODE findNode(String key){
-        System.err.println("Finding Node");
+        System.err.println("Finding Vertex");
         RBNODE current = root;
         while (!isNil(current)) {
             if (current.getKey().equals(key)) {
@@ -303,7 +303,7 @@ public class RBTree {
     }
 
     public int find(String key){
-        System.err.println("Finding Node");
+        System.err.println("Finding Vertex");
         RBNODE node = findNode(key);
         if(node != nil){
             return 1;

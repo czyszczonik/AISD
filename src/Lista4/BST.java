@@ -16,11 +16,11 @@ public class BST {
 
     public void delete(String key){
         Node node = findNode(key);
-        //Node exists.
+        //Vertex exists.
         if(node == null){
             return;
         }
-        //Node are leaf.
+        //Vertex are leaf.
         if(node.getRightNode() ==  null && node.getLeftNode() == null){
             if(node == root){
                 root = null;
@@ -34,7 +34,7 @@ public class BST {
                 return;
             }
         }
-        //Node have only one child right or left.
+        //Vertex have only one child right or left.
         if((node.getLeftNode() == null && node.getRightNode() != null)){
             if(node == root){
                 root = node.getRightNode();
@@ -54,7 +54,7 @@ public class BST {
             node.getLeftNode().setParent(parent);
             return;
         }
-        //Node have two children
+        //Vertex have two children
         Node successorNode = getSuccessorNode(node);
         node.setKey(successorNode.getKey());
         successorNode.getParent().setLeftNode(null);
