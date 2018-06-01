@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class PriorityQueue {
     private int maxSize = 10;
     private int size = 0;
-    HeapItem[] heap = new HeapItem[maxSize];
+    private HeapItem[] heap = new HeapItem[maxSize];
 
     public void insert(Double priority, Vertex vertex){
         if(size == maxSize - 1){
@@ -26,23 +26,6 @@ public class PriorityQueue {
         }
         return null;
     }
-//TODO
-//    public void priority(int value, int priority){
-//        priority(value,priority,0);
-//    }
-//    private void priority(int value, int priority,int index){
-//        if(index >= size){
-//            return;
-//        }
-//        if(heap[index].getPriority() > priority){
-//            return;
-//        }
-//
-//
-//
-//        priority(value,getLeftChildIndex(index);
-//        int right = getRightChildIndex(index);
-//    }
 
 
     private void fixHeapInsert(int index){

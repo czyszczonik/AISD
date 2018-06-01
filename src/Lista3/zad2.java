@@ -36,7 +36,7 @@ public class zad2 {
         }
     }
     static int[] getPermutation(int size) {
-        // Creating a object for Random class
+        // Creating a object for RandomPath class
         int[] arr = new int[size];
         for (int index = 0; index < size; index++) {
             arr[index]=index+1;

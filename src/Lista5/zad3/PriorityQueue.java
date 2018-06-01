@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class PriorityQueue {
     private int maxSize = 10;
     private int size = 0;
-    HeapItem[] heap = new HeapItem[maxSize];
+    private HeapItem[] heap = new HeapItem[maxSize];
 
     public void insert(Double priority, Edge edge){
         if(size == maxSize - 1){

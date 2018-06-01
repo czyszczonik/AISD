@@ -1,41 +1,22 @@
-package Lista5.zad1;
+package Lista5.zad4;
 
 import java.util.Arrays;
 
 public class PriorityQueue {
     private int maxSize = 10;
     private int size = 0;
-    HeapItem[] heap = new HeapItem[maxSize];
+    private HeapItem[] heap = new HeapItem[maxSize];
 
-    public void insert(int value, int priority){
+    public void insert(Double priority, Edge edge){
         if(size == maxSize - 1){
             resize();
         }
-        heap[size] = new HeapItem(value,priority);
+        heap[size] = new HeapItem(priority,edge);
         fixHeapInsert(size);
         size++;
     }
 
-    public void Empty(){
-        if(isEmpty()){
-            System.out.println("1");
-        } else {
-            System.out.println("0");
-        }
-    }
 
-    public void top(){
-        if(isEmpty()){
-            System.out.println();
-        } else {
-            System.out.println(heap[0].getValue());
-        }
-    }
-
-    public HeapItem pop(){
-        top();
-        return remove();
-    }
     public HeapItem remove(){
         if(!isEmpty()){
             HeapItem toReturn = heap[0];
@@ -44,26 +25,6 @@ public class PriorityQueue {
             return toReturn;
         }
         return null;
-    }
-
-    public void priority(int value, int priority){
-        for (int index = 0; index < size;index++) {
-            HeapItem item = heap[index];
-            if(item.getValue().equals(value) && item.getPriority() > priority){
-                item.setPriority(priority);
-                fixHeapInsert(index);
-            }
-        }
-    }
-    public void print(){
-        StringBuilder buffer = new StringBuilder();
-        for(int index = 0; index < size; index ++)
-            buffer.append("(")
-                    .append(heap[index].getValue())
-                    .append(",")
-                    .append(heap[index].getPriority())
-                    .append(") ");
-        System.out.println(buffer.toString());
     }
 
     private void fixHeapInsert(int index){
@@ -104,7 +65,7 @@ public class PriorityQueue {
         return 2*index+2;
     }
 
-    private boolean isEmpty(){
+    public boolean isEmpty(){
         return size == 0;
     }
 
