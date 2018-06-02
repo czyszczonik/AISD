@@ -7,10 +7,6 @@ public class Graph {
 
     private Set<Vertex> vertex = new HashSet<>();
 
-    public void addVertex(Vertex vertex) {
-        this.vertex.add(vertex);
-    }
-
     public Set<Vertex> getVertex() {
         return vertex;
     }

@@ -1,21 +1,19 @@
 package Lista5.zad2;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Vertex {
 
     private int id;
 
+
     private List<Vertex> shortestPath = new LinkedList<>();
 
     //Max integer value is Infinity weight(default);
-    private Double distance = Double.MAX_VALUE;
+    private Double pathWeight = Double.MAX_VALUE;
 
     //Outgoin' edgest from this Vertex to <Destination node,With specific weight>
-    Map<Vertex, Integer> outgoingEdges = new HashMap<>();
+    Set<Edge> outgoingEdges = new HashSet<>();
 
     public Vertex(int id) {
         this.id = id;
@@ -25,19 +23,19 @@ public class Vertex {
         return id;
     }
 
-    public void addOutgoingEdge(Vertex destination, int distance) {
-        outgoingEdges.put(destination, distance);
+    public void addEdge(Edge edge) {
+        outgoingEdges.add(edge);
     }
 
-    public Double getDistance() {
-        return distance;
+    public Double getPathWeight() {
+        return pathWeight;
     }
 
-    public void setDistance(Double distance) {
-        this.distance = distance;
+    public void setPathWeight(Double pathWeight) {
+        this.pathWeight = pathWeight;
     }
 
-    public Map<Vertex, Integer> getOutgoingEdges() {
+    public Set<Edge> getOutgoingEdges() {
         return outgoingEdges;
     }
 

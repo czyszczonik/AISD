@@ -28,7 +28,7 @@ public class LowestWeightPath extends Path{
 //            print(edge);
             cost+=edge.getWeight();
         }
-        printStats("LW");
+        printStats();
     }
 
     private Vertex getNextVertex(Edge edge, Vertex current){

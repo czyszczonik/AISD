@@ -21,7 +21,7 @@ public class RandomPath extends Path{
             print(edge);
             steps++;
         }
-        printStats("R");
+        printStats();
     }
 
     private void print(Edge edge) {

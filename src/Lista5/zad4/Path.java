@@ -39,9 +39,9 @@ public abstract class Path{
         }
     }
 
-    protected void printStats(String s){
+    protected void printStats(){
         long duration = (System.nanoTime() - startTime) / 1000;
-        System.out.println(s+" "+steps+" "+ cost+" "+ Memory+" "+duration);
+        System.out.println(" "+steps+" "+ cost+" "+ Memory+" "+duration);
     }
 
 }

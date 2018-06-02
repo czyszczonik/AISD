@@ -1,49 +1,44 @@
 package Lista5.zad2;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
         Graph graph = readGraph();
         Vertex startVertex = getVertex(graph);
-        Dijkstra.shortestPath(graph,startVertex);
+        Dijkstra.run(graph,startVertex);
         printPath(graph);
     }
 
     private static Graph readGraph(){
+        Graph graph = new Graph();
         Scanner scanner = new Scanner(System.in);
-        Map<Integer,Vertex> vertex = new HashMap<>();
+        List<Vertex> vertices = new ArrayList<>();
         int n = scanner.nextInt();
-        for(int iteration = 1;iteration<=n;iteration++){
-            vertex.put(iteration,new Vertex(iteration));
+        for(int iteration = 0;iteration<n;iteration++){
+            vertices.add(iteration,new Vertex(iteration+1));
         }
         int m = scanner.nextInt();
-        for (int iteration = 0; iteration < m; iteration++) {
+        for (int iteration = 1; iteration <= m; iteration++) {
             int source = scanner.nextInt();
             int destination = scanner.nextInt();
-            int weight = scanner.nextInt();
-            Vertex modified = vertex.get(source);
-            modified.addOutgoingEdge(vertex.get(destination),weight);
-            vertex.replace(source,modified);
+            double weight = scanner.nextDouble();
+            Vertex start = vertices.get(source-1);
+            Vertex end = vertices.get(destination-1);
+            start.addEdge(new Edge(end,weight));
         }
-        Graph graph = new Graph();
-        for (Map.Entry< Integer, Vertex> vertexEntry : vertex.entrySet()) {
-            graph.addVertex(vertexEntry.getValue());
-        }
+        graph.setVertex(new HashSet<>(vertices));
         return graph;
     }
 
     private static void printPath(Graph graph){
         for (Vertex vertex : graph.getVertex()) {
-            if(vertex.getDistance() == Integer.MAX_VALUE){
+            if(vertex.getPathWeight() == Integer.MAX_VALUE){
                 System.out.println(vertex.getId() + " Infinity");
 
             } else {
-                System.out.println(vertex.getId() + " " + vertex.getDistance());
+                System.out.println(vertex.getId() + " " + vertex.getPathWeight());
             }
             StringBuilder stringBuilder = new StringBuilder();
             for (Vertex path:vertex.getShortestPath()) {
@@ -56,11 +51,11 @@ public class Main {
     private static Vertex getVertex(Graph graph){
         Scanner scanner = new Scanner(System.in);
         int id = scanner.nextInt();
-        Iterator iterator= graph.getVertex().iterator();
-        Vertex vertex = null;
-        for(int iteration = 0;iteration<id;iteration++){
-            vertex = (Vertex) iterator.next();
+        for (Vertex item:graph.getVertex()) {
+            if(item.getId() == id){
+                return item;
+            }
         }
-        return vertex;
+        throw new RuntimeException("Element Not found");
     }
 }
