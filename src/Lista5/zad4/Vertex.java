@@ -34,4 +34,7 @@ public class Vertex {
     public void visit() {
         visited = true;
     }
+    public void remove(Edge edge){
+        edges.remove(edge);
+    }
 }

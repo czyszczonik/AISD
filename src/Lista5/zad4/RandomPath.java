@@ -40,15 +40,15 @@ public class RandomPath {
         System.out.println(steps+" "+ cost+" "+ Memory+" "+duration);
     }
 
-    public Edge getRandomEdge() {
+    private Edge getRandomEdge() {
         return edges.get(rand.nextInt(edges.size()));
     }
 
-    public void print(Edge edge){
+    private void print(Edge edge){
         if(edge.getVertex1().getId() > edge.getVertex2().getId()){
-            System.err.println(edge.getVertex2().getId()+" "+edge.getVertex1().getId()+" "+edge.getWeight());
+            System.err.println("R " + edge.getVertex2().getId()+" "+edge.getVertex1().getId()+" "+edge.getWeight());
         } else {
-            System.err.println(edge.getVertex1().getId()+" "+edge.getVertex2().getId()+" "+edge.getWeight());
+            System.err.println("R " + edge.getVertex1().getId()+" "+edge.getVertex2().getId()+" "+edge.getWeight());
 
         }
     }

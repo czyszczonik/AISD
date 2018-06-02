@@ -5,6 +5,7 @@ public class Edge {
     private Vertex vertex1;
     private Vertex vertex2;
     private Double weight;
+    private Boolean visited = false;
 
     public Edge(Vertex vertex1, Vertex vertex2, Double weight) {
         this.vertex1 = vertex1;
@@ -24,4 +25,11 @@ public class Edge {
         return weight;
     }
 
+    public void visit(){
+        visited = true;
+    }
+
+    public Boolean isVisited() {
+        return visited;
+    }
 }
