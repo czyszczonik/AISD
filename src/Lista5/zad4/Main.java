@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args){
         Graph graph = loadGraph();
         new RandomPath(graph).run();
-        new LowestWeight(graph).run();
+        new LowestWeightPath(graph).run();
     }
 
     public static Graph loadGraph(){
@@ -39,5 +39,4 @@ public class Main {
         }
         return graph;
     }
-
 }
