@@ -23,7 +23,7 @@ public class Dijkstra {
                 if (!visitedVertex.contains(destinationVertex)) {
                     //calculate new shortest path to destinationVertex
                     shortestPath(destinationVertex,currentVertex,edgeWeight);
-                    //add destinationVertex to Queue
+                    //insert destinationVertex to Queue
                     vertexQueue.insert(destinationVertex.getPathWeight(),destinationVertex);
                 }
             }

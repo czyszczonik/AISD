@@ -63,8 +63,8 @@ class Prim{
     }
 
     private static Vertex getVertex(Graph graph){
-        Scanner scanner = new Scanner(System.in);
-        int id = scanner.nextInt();
+        Random random = new Random();
+        int id = random.nextInt(graph.getVertices().size());
         Iterator iterator= graph.getVertices().iterator();
         Vertex vertex = null;
         for(int iteration = 0;iteration<id;iteration++){
